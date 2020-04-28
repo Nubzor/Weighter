@@ -24,7 +24,12 @@ module.exports = {
       {
         test: /\.(html|svelte)$/,
         exclude: /node_modules/,
-        use: 'svelte-loader'
+        use: {
+            loader: 'svelte-loader',
+            options: {
+                dev: process.env.NODE_ENV === 'development',
+            },
+        }
       },
     ]
   }
