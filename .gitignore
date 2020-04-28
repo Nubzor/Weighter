@@ -2,6 +2,11 @@
 # Created by https://www.gitignore.io/api/git,node,macos,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,node,macos,visualstudiocode
 
+### Own ### 
+
+# To make sure we won't push firebase credentials to remote repository
+firebase.config.js
+
 ### Git ###
 # Created by git for backups. To disable backups in Git:
 # $ git config --global mergetool.keepBackup false
