@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GoogleSignIn component should render component correctly 1`] = `
+<body>
+  <div>
+    <div
+      class="sign-in-container"
+    >
+      <div
+        class="button"
+      >
+        <div
+          class="button__wrapper"
+        >
+          <div
+            class="button__element"
+          >
+            <div
+              class="button__logo"
+            >
+              undefined
+            </div>
+          </div>
+           
+          <span
+            class="button__content"
+          >
+            <span>
+              Sign in with Google
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
