@@ -1,6 +1,9 @@
 <script>
 import Loader from '../Loader/Loader.svelte';
 import Login from '../App/Login/Login.svelte';
+
+import { user } from '../store.js';
+
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
@@ -8,46 +11,23 @@ import firebaseConfig from '../../firebase.config';
 
 firebase.initializeApp(firebaseConfig);
 
-var provider = new firebase.auth.GoogleAuthProvider();
-
-// firebase.auth().signInWithPopup(provider).then(function(result) {
-//   // This gives you a Google Access Token. You can use it to access the Google API.
-//   var token = result.credential.accessToken;
-//   // The signed-in user info.
-//   var user = result.user;
-
-//   console.log(user);
-//   // ...
-// }).catch(function(error) {
-//   // Handle Errors here.
-//   var errorCode = error.code;
-//   var errorMessage = error.message;
-//   // The email of the user's account used.
-//   var email = error.email;
-//   // The firebase.auth.AuthCredential type that was used.
-//   var credential = error.credential;
-//   // ...
-
-//   console.log(error);
-// });
+const handleClick = () => user.logOut();
 
 // default state: undefined
 // logged in: object
 // logged off: null
-let user;
-
-// firebase.auth().onAuthStateChanged(_user => {
-//   user = _user;
-// });
+firebase.auth().onAuthStateChanged(_user => {
+  user.setUser(_user);
+});
 </script>
 
 <main>
-	{#if user === null} 
+	{#if $user === null} 
 		<Loader />
-	{:else if user === undefined} 
+	{:else if $user === undefined} 
 		<Login />
 	{:else} 
-		<p>Load the app</p>
+		<p on:click={handleClick}>Load the app</p>
 	{/if}
 </main>
 
