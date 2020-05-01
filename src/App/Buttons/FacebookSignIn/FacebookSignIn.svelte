@@ -1,12 +1,14 @@
 <script>
 import FacebookLogo from '../../../../assets/facebook_logo.png';
+import signIn, { providers } from '../signIn';
+
+const handleClick = () => signIn(providers.FACEBOOK);
 </script>
 
-<div class="button">
+<div on:click={handleClick} class="button">
     <div class="button__wrapper">
         <div class="button__element">
             <div class="button__logo">
-            <!-- {@html SvgLogo} -->
                 <img src={FacebookLogo} alt="Facebook" />
             </div>
         </div>

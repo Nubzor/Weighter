@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store';
 
-function createUser() {
-	const { subscribe, set, update } = writable(null);
+const createUser = () => {
+	const { subscribe, set } = writable(undefined);
 
 	return {
 		subscribe,
-		setUser: () => set(user),
-		logOut: () => set(undefined)
+		setUser: user => set(user),
+		logOut: () => set(null)
 	};
 }
 

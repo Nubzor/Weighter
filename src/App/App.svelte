@@ -1,6 +1,7 @@
 <script>
 import Loader from '../Loader/Loader.svelte';
-import Login from '../App/Login/Login.svelte';
+import Login from './Login/Login.svelte';
+import Main from './Main/Main.svelte';
 
 import { user } from '../store.js';
 
@@ -11,8 +12,6 @@ import firebaseConfig from '../../firebase.config';
 
 firebase.initializeApp(firebaseConfig);
 
-const handleClick = () => user.logOut();
-
 // default state: undefined
 // logged in: object
 // logged off: null
@@ -22,12 +21,12 @@ firebase.auth().onAuthStateChanged(_user => {
 </script>
 
 <main>
-	{#if $user === null} 
+	{#if $user === undefined} 
 		<Loader />
-	{:else if $user === undefined} 
+	{:else if $user === null} 
 		<Login />
 	{:else} 
-		<p on:click={handleClick}>Load the app</p>
+		<Main />
 	{/if}
 </main>
 
@@ -38,6 +37,7 @@ firebase.auth().onAuthStateChanged(_user => {
 		font-family: Roboto, arial, sans-serif;
 		background-color: #1abc9c;
 		height: 100vh;
+		margin: 0;	
 	}
 
 	main {

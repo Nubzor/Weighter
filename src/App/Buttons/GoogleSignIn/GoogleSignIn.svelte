@@ -2,27 +2,9 @@
 import SvgLogo from '../../../../assets/GoogleLogo.svg';
 import { user } from '../../../store.js';
 
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import signIn, { providers } from '../signIn';
 
-const handleClick = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase.auth().signInWithPopup(provider).then(result => {
-        const token = result.credential.accessToken;
-
-        user.setUser({token, ...result.user});
-    }).catch(function(error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = error.credential;
-
-        console.log(error);
-
-        // @TBD
-    });
-}
+const handleClick = () => signIn(providers.GOOGLE);
 </script>
 
 <div on:click={handleClick} class="button">
