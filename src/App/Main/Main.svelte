@@ -1,5 +1,6 @@
 <script>
 import ProfileIcon from './ProfileIcon/ProfileIcon.svelte';
+import WeightIcon from './WeightIcon/WeightIcon.svelte';
 import Profile from './Profile/Profile.svelte';
 
 const TABS = { 
@@ -24,10 +25,14 @@ let activeTab = TABS.WEIGHT;
 
 </script>
 
-<section class="container">
-    <nav class="navbar">
+<section class="main-container">
+    <nav class="main-container__navbar">
         <div data-type="{TABS.PROFILE}" on:click={setActiveTab}>
             <ProfileIcon active={activeTab === TABS.PROFILE} />
+        </div>
+        <div class="main-container__title">Weigher</div>
+        <div data-type="{TABS.WEIGHT}" on:click={setActiveTab}>
+            <WeightIcon active={activeTab === TABS.WEIGHT} />
         </div>
     </nav>
     <section>
@@ -38,16 +43,26 @@ let activeTab = TABS.WEIGHT;
 </section>
 
 <style>
-    .container {
+    .main-container {
         width: 100%;
         height: 100%;
-        background-color: #fff;
+        background-color: #eee;
         border-radius: 8px;
     }
 
-    .navbar {
+    .main-container__navbar {
         display: flex;
         padding: 4%;
-        justify-content: center;
+        justify-content: space-between;
+        background: #fff;
+        border-bottom: 1px solid #f09;
+        border-bottom-left-radius: 29%;
+        border-bottom-right-radius: 29%;
+         box-shadow: 0 4px 6px -6px #f1A;
+    }
+
+    .main-container__title {
+        display: flex;
+        align-self: center;
     }
 </style>

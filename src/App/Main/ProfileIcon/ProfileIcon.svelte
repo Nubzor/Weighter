@@ -21,12 +21,12 @@ export let active;
 <style>
     .profileIcon {
         width: 28px;
-        height: 28px;
+        height: 22px;
         fill: #888;
-        transform: scale(1.4);
+        transform: scale(1.5);
     }
 
     .profileIcon.active {
-        fill: green;
+        fill: #f09;
     }
 </style>
