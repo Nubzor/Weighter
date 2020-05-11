@@ -1,6 +1,10 @@
+<script>
+export let color = '#fff';
+</script>
+
 <div class="spinner" data-testid="spinner">
-  <div class="double-bounce1"></div>
-  <div class="double-bounce2"></div>
+  <div class="double-bounce1" style="--color:{color}"></div>
+  <div class="double-bounce2" style="--color:{color}"></div>
 </div>
 
 <style>
@@ -16,7 +20,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--color);
   opacity: 0.6;
   position: absolute;
   top: 0;
