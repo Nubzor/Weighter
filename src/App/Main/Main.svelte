@@ -2,6 +2,7 @@
 import ProfileIcon from './ProfileIcon/ProfileIcon.svelte';
 import WeightIcon from './WeightIcon/WeightIcon.svelte';
 import Profile from './Profile/Profile.svelte';
+import Weight from './Weight/Weight.svelte';
 
 const TABS = { 
     PROFILE: 'PROFILE',
@@ -35,9 +36,11 @@ let activeTab = TABS.WEIGHT;
             <WeightIcon active={activeTab === TABS.WEIGHT} />
         </div>
     </nav>
-    <section>
+    <section class="main-container__app">
         {#if activeTab === TABS.PROFILE}
             <Profile />
+        {:else if activeTab === TABS.WEIGHT}
+            <Weight />
         {/if}
     </section>
 </section>
@@ -58,11 +61,16 @@ let activeTab = TABS.WEIGHT;
         border-bottom: 1px solid #f09;
         border-bottom-left-radius: 29%;
         border-bottom-right-radius: 29%;
-         box-shadow: 0 4px 6px -6px #f1A;
+         box-shadow: 0 4px 6px -6px #f1a;
     }
 
     .main-container__title {
         display: flex;
         align-self: center;
+    }
+
+    .main-container__app {
+        width: 100%;
+        height: 100%;
     }
 </style>
