@@ -11,7 +11,6 @@ const PROVIDERS = {
 export const providers = Object.keys(PROVIDERS).reduce((curr, next) => Object.assign({}, curr, {[next]: next}), {})
 
 export default (providerType) => {
-    console.log(providerType);
     const provider = PROVIDERS[providerType]();
 
     firebase.auth().signInWithPopup(provider).then(result => {
@@ -25,7 +24,6 @@ export default (providerType) => {
         const credential = error.credential;
 
         console.log(error);
-
         // @TBD
     });
 }
