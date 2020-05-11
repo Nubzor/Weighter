@@ -1,12 +1,23 @@
 <script>
+import * as firebase from "firebase/app";
+import 'firebase/database';
+
+import { user } from '../../../store.js';
+
 import WeightCreator from './WeightCreator/WeightCreator.svelte';
 import WeightContent from './WeightContent/WeightContent.svelte';
 import Notification from '../Notification/Notification.svelte';
 
+const db = firebase.database();
+
+let extendedView;
 let isCreatorOpened = false;
 let showNotification = false;
-
 let notificationMessage = '';
+
+db.ref(`/users/${$user.uid}/settings`).once('value').then(snapshot => {
+    extendedView = snapshot.val().extendedView;
+});
 
 const onClickHandler = () => {
     isCreatorOpened = true;
@@ -35,13 +46,17 @@ const handleNotification = (event) => {
         <Notification message={notificationMessage} />
     {/if}
     {#if isCreatorOpened} 
-        <WeightCreator on:close={handleClose} on:notification={handleNotification} />
+        <WeightCreator
+            extendedView={extendedView}
+            on:close={handleClose}
+            on:notification={handleNotification} 
+        />
     {:else}
     <div class="weight__add-entry">
         <button on:click={onClickHandler}>Add</button>
     </div>
     <div class="weight__entries">
-        <WeightContent />
+        <WeightContent extendedView={extendedView} />
     </div>
     {/if}
 </div>

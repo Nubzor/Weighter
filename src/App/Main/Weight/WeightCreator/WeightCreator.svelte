@@ -11,29 +11,30 @@ const db = firebase.database();
 
 const dispatch = createEventDispatcher();
 
-let extendedViewStatus = false;
-let dataLoaded = false
-let steps;
-let stepsAsList;
+export let extendedView;
 
-db.ref(`/users/${$user.uid}/settings`).once('value').then(snapshot => {
-    const { extendedView } = snapshot.val()
+const defaultDate = () => {
+    const now = new Date();
 
-    steps = extendedView ? 6 : 2;
-    stepsAsList = extendedView ? [
-        { type: 'date', input: 'date',  default: defaultDate() },
-        { type: 'kg', input: 'number', step: '0.1' },
-        { type: 'fat', input: 'number', step: '0.1' }, // body fat
-        { type: 'twb', input: 'number', step: '0.1' }, // body water
-        { type: 'muscle', input: 'number', step: '0.1' }, // muscle mass
-        { type: 'bone', input: 'number', step: '0.1' }, // bone mass
-    ] : [
-        { type: 'date', input: 'date', step: '0.1', default: defaultDate() },
-        { type: 'kg', input: 'number', step: '0.1' },
-    ]
+    const dd = ("0" + now.getDate()).slice(-2);
+    const mm = ("0" + (now.getMonth() + 1)).slice(-2);
+    const yyyy = now.getFullYear();
 
-    dataLoaded = true;
-});
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+let steps = extendedView ? 6 : 2;
+let stepsAsList = extendedView ? [
+    { type: 'date', input: 'date',  default: defaultDate() },
+    { type: 'kg', input: 'number', step: '0.1' },
+    { type: 'fat', input: 'number', step: '0.1' }, // body fat
+    { type: 'twb', input: 'number', step: '0.1' }, // body water
+    { type: 'muscle', input: 'number', step: '0.1' }, // muscle mass
+    { type: 'bone', input: 'number', step: '0.1' }, // bone mass
+] : [
+    { type: 'date', input: 'date', step: '0.1', default: defaultDate() },
+    { type: 'kg', input: 'number', step: '0.1' },
+]
 
 const nextPageHandler = () => step = (step + 1) % steps;
 const previousPageHandler = () => step = (step + steps - 1) % steps;
@@ -78,55 +79,41 @@ const saveHandler = (e) => {
             });
 }
 
-const defaultDate = () => {
-    const now = new Date();
-
-    const dd = ("0" + now.getDate()).slice(-2);
-    const mm = ("0" + (now.getMonth() + 1)).slice(-2);
-    const yyyy = now.getFullYear();
-
-    return `${yyyy}-${mm}-${dd}`;
-}
-
 let step = 0;
 </script>
 
-{#if !dataLoaded} 
-    <Loader color={'#f09'} />
-{:else}
-    <div class="wrapper">
-        <button on:click={backButtonHandler}>Back</button>
-        <form class="creator-form" on:submit={saveHandler}>
-            <div class="creator">
-                <div class="content">
-                {#each stepsAsList as _step, i}
-                    <div class="step step-{i}" class:active={step === i}>
-                        <span>{#if _step.type ==='date'} Chose {:else} Put {/if}{ _step.type}</span>
-                        <input type={_step.input} step={_step.step} value={_step.default} data-type={_step.type} />
-                    </div>
-                {/each}
+<div class="wrapper">
+    <button on:click={backButtonHandler}>Back</button>
+    <form class="creator-form" on:submit={saveHandler}>
+        <div class="creator">
+            <div class="content">
+            {#each stepsAsList as _step, i}
+                <div class="step step-{i}" class:active={step === i}>
+                    <span>{#if _step.type ==='date'} Chose {:else} Put {/if}{ _step.type}</span>
+                    <input type={_step.input} step={_step.step} value={_step.default} data-type={_step.type} />
                 </div>
-                <div class="buttons">
-                    <button type="button" class:hidden={step === 0} on:click={previousPageHandler}>Back</button>
-                    <button type="button" class:none={step === (stepsAsList.length - 1)} on:click={nextPageHandler}>Next</button>
-                    <button
-                        class="save"
-                        type="submit"
-                        class:none={step !== (stepsAsList.length - 1)}>
-                        Save
-                    </button>
-                </div>
-                <div class="progress">
-                    <ul>
-                    {#each stepsAsList as _step, i}
-                        <li class:active={i === step}></li>
-                    {/each}
-                    </ul>
-                </div>
+            {/each}
             </div>
-        </form>
-    </div>
-{/if}
+            <div class="buttons">
+                <button type="button" class:hidden={step === 0} on:click={previousPageHandler}>Back</button>
+                <button type="button" class:none={step === (stepsAsList.length - 1)} on:click={nextPageHandler}>Next</button>
+                <button
+                    class="save"
+                    type="submit"
+                    class:none={step !== (stepsAsList.length - 1)}>
+                    Save
+                </button>
+            </div>
+            <div class="progress">
+                <ul>
+                {#each stepsAsList as _step, i}
+                    <li class:active={i === step}></li>
+                {/each}
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
 
 <style>
     .creator {
